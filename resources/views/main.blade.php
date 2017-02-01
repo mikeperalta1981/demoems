@@ -39,9 +39,8 @@
                   <li><a href="{{ url('/employee') }}"><i class="fa fa-user"></i> Employees</a></li>
                   <li><a><i class="fa fa-money"></i> Payroll <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="#">Dashboard</a></li>
-                      <li><a href="#">Dashboard2</a></li>
-                      <li><a href="#">Dashboard3</a></li>
+                      <li><a href="#">Regular</a></li>
+                      <li><a href="#">Contractual</a></li>
                     </ul>
                   </li>
                   <li><a href="javascript:void(0)"><i class="fa fa-book"></i> Reports</a></li>
