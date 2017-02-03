@@ -867,11 +867,12 @@
                             <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Profile</a>
                             </li>
                           </ul>
-                          <div id="myTabContent" class="tab-content">
+                          
+                          <div id="myTabContent1" class="tab-content">
                             <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
 
                               <!-- start recent activity -->
-                              <ul class="messages">
+                              <!-- <ul class="messages">
                                 <li>
                                   <img src="images/img.jpg" class="avatar" alt="Avatar">
                                   <div class="message_date">
@@ -936,8 +937,8 @@
                                     </p>
                                   </div>
                                 </li>
-
-                              </ul>
+                              
+                              </ul> -->
                               <!-- end recent activity -->
 
                             </div>
@@ -1013,7 +1014,7 @@
                       </div>
                     </div>
                   </div>
-                  
+
                 </div>
               </div>
           </div>
@@ -1104,9 +1105,9 @@
           }
       };
 
-      // Manually init dropzone on our element.
+      // Manually init dropzone on our element url('/employee/postPicture').
       var AddImageDropzone = new Dropzone("#add_picture", {
-          url: '{{ url('/employee/postPicture') }}'
+           url: "{{ URL::to('/employee/postPicture') }}"
       });
 
 
@@ -1151,7 +1152,7 @@
       $(document).ready(function(){
 
          var $table = $('#employee-list-table').DataTable({
-              "ajax": "/employee/getList",
+              "ajax": "{{ URL::to('/employee/getList') }}",
               "columns": [
                   { "data": "name" },
                   { "data": "position" },
@@ -1180,7 +1181,7 @@
            $.ajax({
 
                 type:"POST",
-                url:'/employee',
+                url: "{{ URL::to('/employee') }}",
                 data:$(this).serialize(),
                 dataType: 'json',
                 success: function(data){
@@ -1214,7 +1215,7 @@
           
            $.ajax({
                 type:"POST",
-                url:'/employee/update',
+                url: "{{ URL::to('/employee/update') }}",
                 data:$(this).serialize(),
                 //data: $data,
                 //processData: false,
@@ -1247,7 +1248,15 @@
          $('#employee-list-table tbody').on( 'click', 'button.edit', function () {
             var data = $table.row( $(this).parents('tr') ).data();
             var $arrdata = [];
-            EditImageDropzone.removeAllFiles();
+            //EditImageDropzone.removeAllFiles();
+
+            if ($('#edit_picture').is(':empty')){
+              
+            }
+            else{
+              EditImageDropzone.removeAllFiles();
+            }
+
             $('#EditEmployeeModal').modal('show');
             
             $('#EditEmployeeModal').one('shown.bs.modal', function () {
@@ -1273,7 +1282,7 @@
               
               
               var $pic_url = $arrdata.profile_pic;
-               
+              
               $path = $basepath + "/" + $pic_url;
               
               //$('myOjbect').css('background-image', 'url(' + imageUrl + ')');
@@ -1285,39 +1294,29 @@
 
             })
 
-             
-            //alert($profile_pic); 
-           
-            // Create the mock file:
-            //var mockFile = { name: "Filename", size: 12345 };
-
-            // Call the default addedfile event handler
-            //EditImageDropzone.emit("addedfile", mockFile);
-
-            // And optionally show the thumbnail of the file:
-            //EditImageDropzone.emit("thumbnail", mockFile, "/image/url");
-            // Or if the file on your server is not yet in the right
-            // size, you can let Dropzone download and resize it
-            // callback and crossOrigin are optional.
-            
-
-            /*EditImageDropzone.createThumbnailFromUrl(mockFile, {{-- url('/upload/' . $profile_pic)  --}});*/
-
-            // Make sure that there is no progress bar, etc...
-            //EditImageDropzone.emit("complete", mockFile);  
-
-
+        
         } );
 
 
         $('#CreateEmployeeModal').on('shown.bs.modal', function () {
             $('#employee-form')[0].reset();
-            AddImageDropzone.removeAllFiles();
+            if ($('#edit_picture').is(':empty')){
+            }
+            else{
+              AddImageDropzone.removeAllFiles();  
+            }
+            
         })
 
         $('#EditEmployeeModal').on('hidden.bs.modal', function () {
           EditImageDropzone.files.push( mockFile ); 
-          EditImageDropzone.removeAllFiles( true );            
+          //EditImageDropzone.removeAllFiles( true );    
+           if ($('#edit_picture').is(':empty')){
+              
+            }
+            else{
+              EditImageDropzone.removeAllFiles();
+            }
         })
 
 
@@ -1342,7 +1341,7 @@
 
            $.ajax({
                   type:"POST",
-                  url:'/employee/showProfile',
+                  url: "{{ URL::to('/employee/showProfile') }}",
                   data: {'id': $id
                   },
                   //data: $data,

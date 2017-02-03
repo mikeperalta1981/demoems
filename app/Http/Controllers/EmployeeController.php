@@ -8,7 +8,7 @@ use App\Http\Requests;
 use Illuminate\Support\Facades\Input;
 use Image;
 use Carbon\Carbon;
-
+use URL;
 class EmployeeController extends Controller
 {
 
@@ -103,7 +103,7 @@ class EmployeeController extends Controller
     {
         //
         $inputs = $request->except('_token', '_method');
-        //echo "<pre>",print_r($inputs),die();
+       // echo "<pre>",print_r($inputs),die();
         $return = DB::table('employees')
             ->where('id', $inputs['id'])
             ->update($inputs);
@@ -173,11 +173,17 @@ class EmployeeController extends Controller
         $inputs = $request->file('file');
         $now = Carbon::now();
         $strtotime = strtotime($now->toDateTimeString());
-        $destinationPath = public_path().'/uploads/';
+        //$destinationPath = public_path().'/uploads/';
+        $destinationPath ='uploads';
+
+        //echo base_url();
+        //echo $destinationPath;die;
         $filename = $strtotime . "_" .  $request->file('file')->getClientOriginalName(); 
         $path = $request->file('file')->getRealPath();
         
-
+       /* echo $filename;
+        echo $path;
+        die;*/
 
         if ($request->hasFile('file')) {
             $request->file('file')->move($destinationPath, $filename);
